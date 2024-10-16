@@ -6,6 +6,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../../css/form.css";
 import { toast } from "react-toastify";
 
+const positions = ['Software Engineer', 'Product Manager', 'HR Manager', 'Sales Executive'];
+const departments = ['Engineering', 'Product', 'Human Resources', 'Sales'];
+
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
   position: z.string().min(1, "Position is required"),
@@ -30,11 +33,26 @@ const InputField = ({ label, id, type, register, error }) => (
   </div>
 );
 
+const SelectField = ({ label, id, options, register, error }) => (
+  <div className="mb-3">
+    <label htmlFor={id} className="form-label">
+      {label}
+    </label>
+    <select id={id} className={`form-select ${error ? "is-invalid" : ""}`} {...register(id)}>
+      <option value="">Select {label}</option>
+      {options.map((option, index) => (
+        <option key={index} value={option}>{option}</option>
+      ))}
+    </select>
+    {error && <div className="invalid-feedback">{error.message}</div>}
+  </div>
+);
+
 const EmployeeForm = ({ onSubmit, register, errors, reset }) => (
   <form onSubmit={onSubmit}>
     <InputField label="Name" id="name" type="text" register={register} error={errors.name} />
-    <InputField label="Position" id="position" type="text" register={register} error={errors.position} />
-    <InputField label="Department" id="department" type="text" register={register} error={errors.department} />
+    <SelectField label="Position" id="position" options={positions} register={register} error={errors.position} />
+    <SelectField label="Department" id="department" options={departments} register={register} error={errors.department} />
     <InputField label="Date of Birth" id="dob" type="date" register={register} error={errors.dob} />
     <InputField label="Email" id="email" type="email" register={register} error={errors.email} />
     <InputField label="Phone Number" id="phone" type="text" register={register} error={errors.phone} />
