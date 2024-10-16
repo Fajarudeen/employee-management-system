@@ -18,8 +18,14 @@ const EmployeeList = ({ employees, setEmployees }) => {
     setSearchText(e.target.value);
   };
 
-  const filteredEmployees = employees.filter((emp) =>
-    emp.name.toLowerCase().includes(searchText.toLowerCase())
+  const filteredEmployees = employees.filter((emp) =>{
+    const searchValue = searchText.toLowerCase();
+    return (
+      emp.name.toLowerCase().includes(searchValue) ||
+      emp.email.toLowerCase().includes(searchValue) ||
+      emp.department.toLowerCase().includes(searchValue)
+    );
+  }
   );
 
   const columns = [
