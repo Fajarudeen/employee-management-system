@@ -9,9 +9,12 @@ const EmployeeList = ({ employees, setEmployees }) => {
   const navigate = useNavigate();
 
   const handleDelete = (id) => {
-    const updatedEmployees = employees.filter((emp) => emp.id !== id);
-    setEmployees(updatedEmployees);
-    toast.success("Employee deleted successfully");
+    const confirmDelete = window.confirm("Are you sure you want to delete this employee?");
+    if (confirmDelete) {
+      const updatedEmployees = employees.filter((emp) => emp.id !== id);
+      setEmployees(updatedEmployees);
+      toast.success("Employee deleted successfully");
+    }
   };
 
   const handleSearch = (e) => {
